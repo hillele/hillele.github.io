@@ -16,7 +16,7 @@
 			margin-right: 10%;
 			margin-left: 10%;
 		}
-		div {
+		div.text {
 			margin-top: 30px;
 			padding: 15px;
 			border: 1px solid red;
@@ -24,9 +24,9 @@
 		div #contact{
 			margin-bottom: 30px;
 		}
-		div #map{
+		div.map{
+			margin-top: 30px;
 			height: 500px;
-			border: none absolute;
 		}
 		#header {
 			text-align: center;
@@ -35,22 +35,22 @@
 </head>
 <body>
 <div id="fullBack">
-	<div id="header">
+	<div id="header" class="text">
 		<h1>DraMap Seattle</h1>
 		<p>A visual look at the shows open in Seattle, WA</p>
 	</div>
-	<div id="description">
+	<div id="description" class="text">
 		<h2>What is DraMap?</h2>
 		<p> This is a collection of current shows going on in the Seattle area</p>
 	</div>
-	<div id="map">
+	<div id="map" class="map">
 	</div>
 	<div id="addContent">
 		<h2>Add Your Show!</h2>
 		<p>I can't keep track of all of these by myself! Please feel free to add 
 			your own show via this form below.</p>
 	</div>
-	<div id="contact">
+	<div id="contact" class="text">
 		<h2>Something Seem Wrong?</h2>
 		<p>Please contact me if something seems wrong! It's usually an easy fix.</p>
 	</div>
