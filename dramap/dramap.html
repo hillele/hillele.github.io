@@ -145,7 +145,7 @@ function checkDate(openFull, closeFull) {
 // lat-4, long-5, opening-6, closing-7, type-8]
 for (var i = 0; i < rawShows.length; i++) {
 	show = rawShows[i];
-	var withinDate = true // checkDate(show[6], show[7]);
+	var withinDate = checkDate(show[6], show[7]); // true
 	if (withinDate) {
 		var lat = show[4];
 		var lng = show[5];
