@@ -1,1 +1,91 @@
 <!DOCTYPE html>
+
+<html>
+<head>
+	<meta charset='utf-8' />
+	<title>DraMap</title>
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+	<style>
+		#fullBack {
+			font-family: Trebuchet MS;
+			padding-left: 5%;
+			padding-right: 5%;
+			border: 1px solid red;
+			margin-top: 30px;
+			margin-bottom: 30px;
+			margin-right: 10%;
+			margin-left: 10%;
+		}
+		div.text {
+			margin-top: 30px;
+			padding: 15px;
+			border: 1px solid red;
+		}
+		div #contact{
+			margin-bottom: 30px;
+		}
+		div.map{
+			margin-top: 30px;
+			height: 600px;
+			border: 1px solid red;
+		}
+		#header {
+			text-align: center;
+		}
+	</style>
+</head>
+<body>
+<div id="fullBack">
+  <div id="header" class="text">
+		<h1>DraMap Seattle</h1>
+		<p>A visual look at the shows open in Seattle, WA</p>
+	</div>
+	<div id="description" class="text">
+		<h2>What is DraMap?</h2>
+		<p> This is a collection of current shows going on in the Seattle area</p>
+	</div>
+	<div id="map" class="map">
+	</div>
+	<div id="addContent" class="text">
+		<h2>Add Your Show!</h2>
+		<p>I can't keep track of all of these by myself! Please feel free to add 
+			your own show via this form below.</p>
+		<form>
+			Title of show: <input type="text" name="show"><br>
+			Production Group: <input type="text" name="production"><br>
+			Name of performance space: <input type="text" name="perfName"><br>
+			Latitude/Longitude of the space: <input type="text" name="latLng"><br>
+			Opening date (MM/DD/YYYY): <input type="text" name="open"><br>
+			Closing date (MM/DD/YYYY): <input type="text" name="close"><br>
+			Type of performance: <select name="type">
+				<option value="play">Play</option>
+				<option value="musical">Musical</option>
+				<option value="dance">Dance</option>
+				<option value="other">Other</option>
+			</select>
+			
+		</form>
+	</div>
+	<div id="contact" class="text">
+		<h2>Something Seem Wrong?</h2>
+		<p>Please contact me if something seems wrong! It's usually an easy fix.</p>
+	</div>
+</div>
+<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css"/>
+<script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+
+<script>
+var map = L.map('map',
+	{
+	center: [47.646536, -122.336135],
+	zoom: 11
+});
+
+// Basemap added - it is a Mapbox style
+L.mapbox.accessToken = 'pk.eyJ1IjoiaGlsbGVsZSIsImEiOiJjaXpuNzF6OXQwMmp5MzJvOGthcm5rd3IyIn0.wOXGQAZaGRmW3rGhMBQ3Ng';
+var style = L.mapbox.styleLayer('mapbox://styles/hillele/cj0afn9gr000h2rpbeqqlt86q').addTo(map);
+</script>
+</body>
+</html>
