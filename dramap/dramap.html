@@ -114,22 +114,31 @@ var date = new Date();
 currDay = date.getDate();
 currMonth = date.getMonth()+1;
 currYear = date.getFullYear();
-console.log("Current " + currDay + " " + currMonth + " " + currYear);
+
 
 // Function to check if date is right
-// receive as string MM-DD-YYYY
+// receive as string MM(0)-DD(1)-YYYY(2)
 function checkDate(openFull, closeFull) {
 	var open = openFull.split("-");
 	var close = closeFull.split("-");
 	var inBounds = false;
+	console.log(open);
+	console.log("Current " + currDay + " " + currMonth + " " + currYear);
+	console.log(close);
 	// need check year, month, day of open, then close year, month, day)
-	if (Number(open[2]) >= currYear) {
-		if (Number(open[0]) >= currMonth) {
-			if (Number(open[1]) >= currDay) {
+	if (Number(open[2]) >= currYear) { // Check open year
+		console.log("Check1");
+		if (Number(open[0]) >= currMonth) { // Check open month
+			console.log("Check1");
+			if (Number(open[1]) >= currDay) { // Check open Day
+				console.log("Check1");
 				if (Number(close[2]) <= currYear) {
+					console.log("Check1");
 					if (Number(close[0]) <= currMonth) {
+						console.log("Check1");
 						if (Number(close[1]) <= currDay) {
-							inbounds = true;
+							console.log("Check1");
+							inBounds = true;
 						}
 					}
 				}
