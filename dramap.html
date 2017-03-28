@@ -76,24 +76,23 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css"/>
 <script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
 <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+<script src='https://hillele.github.io/dramap/shows.js'></script>
 
 <script>
+// Initializing the map
 var map = L.map('map',
 	{
 	center: [47.646536, -122.336135],
 	zoom: 11
 });
 
-// Basemap added - it is a Mapbox style
+// Basemap added - it is hosted on Mapbox
 L.mapbox.accessToken = 'pk.eyJ1IjoiaGlsbGVsZSIsImEiOiJjaXpuNzF6OXQwMmp5MzJvOGthcm5rd3IyIn0.wOXGQAZaGRmW3rGhMBQ3Ng';
 var style = L.mapbox.styleLayer('mapbox://styles/hillele/cj0afn9gr000h2rpbeqqlt86q').addTo(map);
 	
-var f = new XMLHttpRequest(); 
-f.open('GET', '/shows.txt');
-f.onreadystatechange = function() {
-  alert(f.responseText);
-}
-f.send();
+console.log(shows);
+	
+
 </script>
 </body>
 </html>
