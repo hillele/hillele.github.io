@@ -22,6 +22,7 @@
 			border: 1px solid red;
 		}
 		div #contact{
+			padding-bottom: 30px;
 			margin-bottom: 30px;
 		}
 		div.map{
@@ -34,12 +35,20 @@
 		}
 		form {
 			border: 1px dashed red;
-			padding: 3px;
+			padding: 10px;
 		}
+		form br {
+			display: block;
+			margin: 5px 0;
+			content: " ";
+		}	
 		input {
 			border: 1px solid red;
-			text-align: right;
-			
+			float: right;
+		}
+		select {
+			float: right;
+			border-color: red;
 		}
 	</style>
 </head>
@@ -59,26 +68,26 @@
 		<h2>Add Your Show!</h2>
 		<p>I can't keep track of all of these by myself! Please feel free to add 
 			your own show via this form below.</p>
-	</div>
-	<div id="contact" class="text">
-		<h2>Something Seem Wrong?</h2>
-		<p>Please contact me if something seems wrong! It's usually an easy fix.</p>
 		<form>
 			Title of show: <input type="text" name="show"><br>
 			Production Group: <input type="text" name="production"><br>
 			Single URL for show, group, or place to buy tickets: <input type="text" name="url"><br>
 			Name of performance space: <input type="text" name="perfName"><br>
 			Latitude/Longitude of the space (LAT, LONG): <input type="text" name="latLng"><br>
-			Opening date (MM/DD/YYYY): <input type="text" name="open"><br>
-			Closing date (MM/DD/YYYY): <input type="text" name="close"><br>
+			Opening date (MM-DD-YYYY): <input type="text" name="open"><br>
+			Closing date (MM-DD-YYYY): <input type="text" name="close"><br>
 			Type of performance: <select name="type">
 				<option value="play">Play</option>
 				<option value="musical">Musical</option>
 				<option value="dance">Dance</option>
 				<option value="other">Other</option>
-			</select>
-			<input type="submit" value="Submit">
+			</select><br>
+			Make sure everything is properly formatted. <input type="submit" value="Submit">
 		</form>
+	</div>
+	<div id="contact" class="text">
+		<h2>Something Seem Wrong?</h2>
+		<p>Please contact me if something seems wrong! It's usually an easy fix.</p>
 	</div>
 </div>
 <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
@@ -98,8 +107,60 @@ var map = L.map('map',
 // Basemap added - it is hosted on Mapbox
 L.mapbox.accessToken = 'pk.eyJ1IjoiaGlsbGVsZSIsImEiOiJjaXpuNzF6OXQwMmp5MzJvOGthcm5rd3IyIn0.wOXGQAZaGRmW3rGhMBQ3Ng';
 var style = L.mapbox.styleLayer('mapbox://styles/hillele/cj0afn9gr000h2rpbeqqlt86q').addTo(map);
-	
-console.log(shows);
+
+var date = new Date();
+currDay = date.getDate();
+currMonth = date.getMonth()+1;
+currYear = date.getFullYear();
+console.log("Current " + currDay + " " + currMonth + " " + currYear);
+
+// Function to check if date is right
+// receive as string MM-DD-YYYY
+function checkDate(openFull, closeFull) {
+	var open = openFull.split("-");
+	var close = closeFull.split("-");
+	var inBounds = false;
+	// need check year, month, day of open, then close year, month, day)
+	if (int(open[2]) >= currYear) {
+		if (int(open[0]) >= currMonth) {
+			if (int(open[1]) >= currDay) {
+				if (int(close[2]) <= currYear) {
+					if (int(close[0]) <= currMonth) {
+						if (int(close[1]) <= currDay) {
+							inbounds = true;
+						}
+					}
+				}
+			}
+		}
+	}
+	return inBounds;
+}
+
+
+// Adding points from github place
+// Formatted: [title-0, url-1, production group-2, performance space-3, 
+// lat-4, long-5, opening-6, closing-7, type-8]
+for (var i = 0; i < rawShows.length; i++) {
+	show = rawShows[i];
+	var withinDate = checkDate(show[6], show[7]);
+	if (withinDate) {
+		var lat = show[4];
+		var lng = show[5];
+		var name = show[0];
+		var point = L.marker([lat, lng], 
+			{
+			title: name,
+			alt: name,
+			riseOnHover: true
+		}).addTo(map);
+		var pointPop = L.popup({className:'pop'})
+			.setLatLng(point.getLatLng())
+			.setContent('<h3>' + point.options.title + '</h3><p>More info can be found <a href="' + show[1] + '">here</a></p>');
+		point.bindPopup(pointPop);
+		point.addTo(map);
+	}
+}
 	
 
 </script>
