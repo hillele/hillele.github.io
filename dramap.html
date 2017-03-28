@@ -87,6 +87,13 @@ var map = L.map('map',
 // Basemap added - it is a Mapbox style
 L.mapbox.accessToken = 'pk.eyJ1IjoiaGlsbGVsZSIsImEiOiJjaXpuNzF6OXQwMmp5MzJvOGthcm5rd3IyIn0.wOXGQAZaGRmW3rGhMBQ3Ng';
 var style = L.mapbox.styleLayer('mapbox://styles/hillele/cj0afn9gr000h2rpbeqqlt86q').addTo(map);
+	
+var f = new XMLHttpRequest(); 
+f.open('GET', '/shows.txt');
+f.onreadystatechange = function() {
+  alert(f.responseText);
+}
+f.send();
 </script>
 </body>
 </html>
