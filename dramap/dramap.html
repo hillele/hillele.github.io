@@ -3,56 +3,9 @@
 <html>
 <head>
 	<meta charset='utf-8' />
-	<title>DraMap</title>
+	<title>DraMap Seattle</title>
 	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-	<style>
-		#fullBack {
-			font-family: Trebuchet MS;
-			padding-left: 5%;
-			padding-right: 5%;
-			border: 1px solid red;
-			margin-top: 30px;
-			margin-bottom: 30px;
-			margin-right: 10%;
-			margin-left: 10%;
-		}
-		div.text {
-			margin-top: 30px;
-			padding: 15px;
-			border: 1px solid red;
-		}
-		div #addContent{
-			padding-bottom: 30px;
-		}
-		div #contact {
-			margin-bottom: 30px;	
-		}
-		div.map{
-			margin-top: 30px;
-			height: 600px;
-			border: 1px solid red;
-		}
-		#header {
-			text-align: center;
-		}
-		form {
-			border: 1px dashed red;
-			padding: 10px;
-		}
-		form br {
-			display: block;
-			margin: 5px 0;
-			content: " ";
-		}	
-		input {
-			border: 1px solid red;
-			float: right;
-		}
-		select {
-			float: right;
-			border-color: red;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="dramapStyle.css">
 </head>
 <body>
 <div id="fullBack">
@@ -75,11 +28,18 @@
 			displayed when it comes time!</p>
 		<p>This automated form is currently under construction, please go ahead and simply send an email to with
 			your shows information. </p>
-		<p>Send to: echdramap@gmail.com Subject: DraMap Point Addition<br>
-			Please include the title of your show, the name of the production group, a <b>single url</b> for 
-			the group/show/where to buy tickets, Name of the performance space, the latitude and longitude of 
-			the performance space, opening date of the show, closing data of the show, and the type of performance
-			(i.e. Play, Musical, Dance, Other)</p>
+		<p>Send to: echdramap@gmail.com -- Subject: DraMap Point Addition<br>
+			Please include: <br>
+			<ul> 
+			<li>The title of your show </li> 
+			<li>The name of the production group</li>
+			<li>A <b>single url</b> for the group/show/where to buy tickets </li>
+			<li>Name of the performance space</li>
+			<li>The latitude and longitude of the performance space</li>
+			<li>Opening date of the show</li>
+			<li>Closing data of the show</li>
+			<li>And the type of performance (i.e. Play, Musical, Dance, Other)</li>
+		</ul></p>
 		<!---
 		<form action="mailto:echdramap@gmail.com" method="post" enctype="text/plain">
 			Title of show: <input type="text" name="show"><br>
@@ -124,17 +84,24 @@ L.mapbox.accessToken = 'pk.eyJ1IjoiaGlsbGVsZSIsImEiOiJjaXpuNzF6OXQwMmp5MzJvOGthc
 var style = L.mapbox.styleLayer('mapbox://styles/hillele/cj0afn9gr000h2rpbeqqlt86q').addTo(map);
 
 var date = new Date();
-currDay = date.getDate();
-currMonth = date.getMonth()+1;
-currYear = date.getFullYear();
+var dd = date.getDate();
+var mm = date.getMonth()+1;
+var yyyy = date.getFullYear();
+var today = new Date(yyyy + "-" + mm + "-" + dd);
+
+// Receives a date in string format MM-DD-YYYY
+// Return date object 
+function reformatDate(date) {
+	var currD = date.split("-");
+	return new Date(date[2] + "-" + date[0] + "-" + date[1]);
+}
 
 // Function to check if date is right
 // receive as string MM(0)-DD(1)-YYYY(2)
 function checkDate(openFull, closeFull) {
-	var open = openFull.split("-");
-	var close = closeFull.split("-");
-	// need check year, month, day of open, then close year, month, day)
-	if (Number(open[2]) <= currYear && Number(open[0]) <= currMonth && Number(open[1]) <= currDay &&  Number(close[2]) >= currYear && Number(close[0]) >= currMonth && Number(close[1]) >= currDay) { // Check open year
+	var open = reformatDate(openFull);
+	var close = reformatDate(closeFull);
+	if (open <= today && today >= close) {
 		return true;
 	}
 	return false;
