@@ -8,11 +8,11 @@
 	<link rel="stylesheet" type="text/css" href="dramapStyle.css">
 </head>
 <body>
-<div id="fullBack">
 	<div id="header" class="text">
 		<h1>DraMap Seattle</h1>
 		<p>A visual look at the shows open in Seattle, WA</p>
 	</div>
+<div id="break"></div>
 	<div id="description" class="text">
 		<h2>What is DraMap?</h2>
 		<p> This is a collection of current shows going on in the Seattle area</p>
@@ -59,12 +59,13 @@
 		</form>
 		--->
 	</div>
+<div id="break"></div>
 	<div id="contact" class="text">
 		<h2>Something Seem Wrong?</h2>
 		<p>Please contact me if something seems wrong! It's usually an easy fix.<br>
 			Email me at <i>echdramap@gmail.com</i></p>
 	</div>
-</div>
+
 <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css"/>
 <script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
@@ -93,7 +94,7 @@ var today = new Date(yyyy + "-" + mm + "-" + dd);
 // Return date object 
 function reformatDate(date) {
 	var currD = date.split("-");
-	return new Date(date[2] + "-" + date[0] + "-" + date[1]);
+	return new Date(currD[2] + "-" + currD[0] + "-" + currD[1]);
 }
 
 // Function to check if date is right
@@ -101,7 +102,7 @@ function reformatDate(date) {
 function checkDate(openFull, closeFull) {
 	var open = reformatDate(openFull);
 	var close = reformatDate(closeFull);
-	if (open <= today && today >= close) {
+	if (open <= today && today <= close) {
 		return true;
 	}
 	return false;
@@ -125,7 +126,7 @@ for (var i = 0; i < rawShows.length; i++) {
 		}).addTo(map);
 		var pointPop = L.popup({className:'pop'})
 			.setLatLng(point.getLatLng())
-			.setContent('<h3>' + point.options.title + '</h3><p>More info can be found <a href="' + show[1] + '">here</a></p>');
+			.setContent('<h3 id="popupHeader">' + point.options.title + '</h3><p id="runTil">Running until ' + show[7] + '</p><p id="small"> Performing at the "' + show[3]+ '", this show is being put on by the ' +show[2]+ ' and more information can be found <a href="' + show[1] + '">here</a></p>');
 		point.bindPopup(pointPop);
 		point.addTo(map);
 	}
