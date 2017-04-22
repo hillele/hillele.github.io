@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title>CaraProBono Map attempt</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <style>
+    body { 
+		margin: 0; 
+		padding:0; 
+	}
+	#contain {
+		margin: 0px;
+		padding: 0px;
+	}
+    #map { 
+		position: absolute; 
+		top:0; 
+		bottom:0; 
+		width:100%; 
+		z-index: 0;
+	}
+	#title {
+		z-index: 0;
+	}
+	#title.active {
+		background: #343843;
+        position: relative;
+        z-index: 1;
+        top: 10px;
+        left: 10px;
+        border-radius: 3px;
+		padding: 5px;
+        width: 300px;
+        border: 2px solid rgba(0,0,0,1);
+        font-family: 'Open Sans', sans-serif;
+		text-align: center;
+		color: #fff;
+	}
+	#fullList {
+		z-index: 0;
+	}
+	#fullList.active{
+		background: #343843;
+        position: absolute;
+		float: right;
+        z-index: 1;
+        top: 10px;
+        right: 10px;
+        border-radius: 3px;
+		padding: 5px;
+        width: 300px;
+        border: 2px solid rgba(0,0,0,1);
+        font-family: 'Open Sans', sans-serif;
+		text-align: center;
+		color: #fff;
+	}
+	ul {
+		text-align: left;
+	}
+	ol {
+		text-align: left;
+	}
+	h2 {
+		font-size: 25px;
+		color: #ffd000;
+	}
+	button {
+		border-radius: 3px;
+		border: 2px solid #ffd000;
+		background-color: #343843;
+		color: #ffd000;
+		font-family: 'Open Sans', sans-serif;
+		padding: 6px;
+		padding-left: 7px;
+		text-height: 15px;
+		padding-right: 7px;
+		line-height: 15px;
+	}
+	#clear {
+		clear: both;
+	}
+	.leaflet-popup-content {
+		border: 2px solid #000;
+		background-color: #343843;
+		color: white;
+		width: 200px;
+		padding-bottom: 5px !important;
+	}
+
+	div.leaflet-popup-content-wrapper {
+		background-color: #343843;
+	}
+
+	div.leaflet-popup.pop.leaflet-zoom-animated {
+		bottom: -20px !important;
+		left: -50px !important;
+	}
+
+	div.leaflet-popup-tip-container {
+		height: 0;
+	}
+	strong#pop {
+		color: #ffd000;
+	}
+    </style>
+</head>
+<body>
+<script src="st_counts.js"></script>
+<script src="states.js"></script>
+<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css"/>
+<script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+<link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet' />
+<div id="contain">
+	<div id="title" class="active"><h2>CaraProBono Project</h2>
+	<p> Current breakup: </p>
+	<ul><li>(1)Palest Yellow: <= 53 people</li>
+		<li>(2)Lighter Yellow: <= </li>
+		<li>(3)Deep Yellow: <= </li>
+		<li>(4)Deepest Yellow <= 1997 people</li>
+	</ul></p>
+	<p>Change your view: </p>
+	<p>
+		<button onclick="zoom1()"><b>East Coast</b></button>
+		<button onclick="zoom2()"><b>Full States</b></button>
+	</p>
+	<p>
+		<button onclick="list(1)"><b>Show List Of States</b></button>
+	</p>
+	</div> 
+
+	<div id="fullList" class=""><h2>Full List and Percentages of The States</h2>
+		<p id="listing"><ol id="listHold">
+		</ol>
+		</p>
+		<p><button onclick="list(0)"><b>Hide List of States</b></button>
+	</div>
+
+<div id="clear"></div>
+
+</div>
+
+<div id='map'></div>
+
+
+<script>
+var full_cnts = st_Cnt[0]
+	
+// Initialized Map
+var map = L.map('map',
+	{
+	center: [39.569730, -97.982561],
+	zoom: 4
+});
+
+// Basemap added - hosted on Mapbox
+L.mapbox.accessToken = 'pk.eyJ1IjoiaGlsbGVsZSIsImEiOiJjaXpuNzF6OXQwMmp5MzJvOGthcm5rd3IyIn0.wOXGQAZaGRmW3rGhMBQ3Ng';
+var style = L.mapbox.styleLayer('mapbox://styles/hillele/cj01rgk2v000b2srol7rkml94').addTo(map);
+
+// Defining the stateStyles
+// Pulling from st_counts.js file, the variable named st_Cnt
+// File created in past code
+function stateColor(cnt) {
+	if (cnt < 1000) {
+		return 'yellow';
+	}
+}
+
+function stateStyle(feature) {
+	var curr = feature.properties.st_abbrev;
+	var list = full_cnts[curr];
+	var count = list[0];
+	if (count == 1) { 
+		return {fillColor: '#ffd000', fillOpacity: 0.15, color: 'black', opacity: 1, weight: 1};
+	} else if (count == 2) { // 
+		return {fillColor: '#ffd000', fillOpacity: 0.45, color: 'black', opacity: 1, weight: 1};
+	} else if (count == 3) {
+		return {fillColor: '#ffd000', fillOpacity: 0.75, color: 'black', opacity: 1, weight: 1};
+	} else if (count == 4) {
+		return {fillColor: '#ffd000', fillOpacity: 1.0, color: 'black', opacity: 1, weight: 2};
+	} 
+}
+
+function onEachFeature(feature, layer) {
+	percentage = full_cnts[feature.properties.st_abbrev][1];
+	perc = percentage.toFixed(2);
+	var popUp = "<p><strong id=\"pop\">" + feature.properties.state + "</strong> fell into the #" + full_cnts[feature.properties.st_abbrev][0] + " category with a <strong id=\"pop\">" + perc +"%</strong> of the total entering the United States</p>";
+	layer.bindPopup(popUp);
+}
+
+// Adding the geoJson of the states to the map
+var shapeLayer = L.geoJson(states, {style: stateStyle, onEachFeature: onEachFeature}).addTo(map);
+
+// Button functions
+function zoom1() {
+	map.setView([36.529359, -77.816354], 5);
+}
+function zoom2() {
+	map.setView([39.569730, -97.982561], 4);
+}
+
+
+function list(x) {
+	if (x == 0) {
+		document.getElementById("fullList").className = "";
+		document.getElementById("title").className = "active";
+		map.setView([39.569730, -97.982561], 4);
+		
+	} else {
+		document.getElementById("title").className = "";
+		document.getElementById("fullList").className = "active";
+		// Check if the list has already been pulled up
+		
+		// Create the list in another function and then add it
+		for (var st in full_cnts) {
+			var listEl = document.createElement("LI");
+			var listItem = document.createTextNode(st);
+			listEl.appendChild(listItem);
+			var docList = document.getElementById("listHold");
+			docList.appendChild(listEl);
+		}
+		// via the add to Element ID thing or whatever 
+		// Also make a change so the state gets highlighted or whatever when you click its popup
+		
+		
+		map.setView([39.286583, -96.950003], 4);
+	}
+}
+
+
+</script>
+
+</body>
+</html>
