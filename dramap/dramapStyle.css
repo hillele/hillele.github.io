@@ -28,7 +28,7 @@ div#barInside a {
 	background-color: #265B6A;
 	border: transparent;
 	border-right: 1px solid #FFFFFE;
-	color: #AA8839;
+	color: #FBE9BF;
 	text-decoration: none;
 	font-size: 20px;
 	padding-right: 13px;
@@ -47,7 +47,7 @@ div#contact {
 	padding-top: 5px;
 	padding-bottom: 15px;
 	background-color: #265B6A;
-	color: #AA8839;
+	color: #FBE9BF;
 }
 div.map{
 	margin: 10%;
@@ -61,10 +61,10 @@ div#header {
 	border: 1px solid #265B6A;
 	margin-bottom: 0px; 
 	background-color: #265B6A;
-	color: #AA8839;
+	color: #FBE9BF;
 }
 h1 {
-	color: #593E00;
+	color: #AA8839;
 }
 h2 {
 	color: #012B37;
