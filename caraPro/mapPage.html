@@ -116,15 +116,18 @@
 <div id="contain">
 	<div id="title" class="active"><h2>CaraProBono Project</h2>
 	<p> Current breakup: </p>
-	<ul><li>(1)Palest Yellow: <= 53 people</li>
-		<li>(2)Lighter Yellow: <= </li>
-		<li>(3)Deep Yellow: <= </li>
-		<li>(4)Deepest Yellow <= 1997 people</li>
-	</ul></p>
+	<p>
+		<ul>
+			<li>(1)Palest Yellow: less 53 people</li>
+			<li>(2)Lighter Yellow:  </li>
+			<li>(3)Deep Yellow:  </li>
+			<li>(4)Deepest Yellow: less 1997 people</li>
+		</ul>
+	</p>
 	<p>Change your view: </p>
 	<p>
-		<button onclick="zoom1()"><b>East Coast</b></button>
-		<button onclick="zoom2()"><b>Full States</b></button>
+		<button onclick="zoomLvl(36.529359, -77.816354, 5)"><b>East Coast</b></button>
+		<button onclick="zoomLvl(39.569730, -97.982561, 4)"><b>Full States</b></button>
 	</p>
 	<p>
 		<button onclick="list(1)"><b>Show List Of States</b></button>
@@ -147,6 +150,7 @@
 
 <script>
 var full_cnts = st_Cnt[0]
+var fullListOpen = False; 
 	
 // Initialized Map
 var map = L.map('map',
@@ -194,13 +198,20 @@ function onEachFeature(feature, layer) {
 var shapeLayer = L.geoJson(states, {style: stateStyle, onEachFeature: onEachFeature}).addTo(map);
 
 // Button functions
-function zoom1() {
-	map.setView([36.529359, -77.816354], 5);
-}
-function zoom2() {
-	map.setView([39.569730, -97.982561], 4);
+function zoomLvl(x, y, zoom) {
+	map.setView([x, y], zoom);
 }
 
+function orderSt() {
+	// Create the list in another function and then add it
+	for (var st in full_cnts) {
+		var listEl = document.createElement("LI");
+		var listItem = document.createTextNode(st);
+		listEl.appendChild(listItem);
+		var docList = document.getElementById("listHold");
+		docList.appendChild(listEl);
+	}
+}
 
 function list(x) {
 	if (x == 0) {
@@ -209,21 +220,14 @@ function list(x) {
 		map.setView([39.569730, -97.982561], 4);
 		
 	} else {
-		document.getElementById("title").className = "";
-		document.getElementById("fullList").className = "active";
-		// Check if the list has already been pulled up
-		
-		// Create the list in another function and then add it
-		for (var st in full_cnts) {
-			var listEl = document.createElement("LI");
-			var listItem = document.createTextNode(st);
-			listEl.appendChild(listItem);
-			var docList = document.getElementById("listHold");
-			docList.appendChild(listEl);
+		document.getElementById("title").className = ""; 		// hides the Main title Card
+		document.getElementById("fullList").className = "active";	// Shows the list Card
+		// If the list hasn't been pulled up yet, create it
+		if (fullListOpen != True) {
+			orderSt();
+			// via the add to Element ID thing or whatever 
+			// Also make a change so the state gets highlighted or whatever when you click its popup
 		}
-		// via the add to Element ID thing or whatever 
-		// Also make a change so the state gets highlighted or whatever when you click its popup
-		
 		
 		map.setView([39.286583, -96.950003], 4);
 	}
