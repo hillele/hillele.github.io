@@ -28,7 +28,7 @@ div#barInside a {
 	background-color: #265B6A;
 	border: transparent;
 	border-right: 1px solid #FFFFFE;
-	color: #FBE9BF;
+	color: #AA8839;
 	text-decoration: none;
 	font-size: 20px;
 	padding-right: 13px;
@@ -47,7 +47,7 @@ div#contact {
 	padding-top: 5px;
 	padding-bottom: 15px;
 	background-color: #265B6A;
-	color: #FBE9BF;
+	color: #AA8839;
 }
 div.map{
 	margin: 10%;
@@ -61,19 +61,20 @@ div#header {
 	border: 1px solid #265B6A;
 	margin-bottom: 0px; 
 	background-color: #265B6A;
-	color: #FBE9BF;
+	color: #AA8839;
 }
 h1 {
 	color: #AA8839;
 }
 h2 {
 	color: #AA8839;
-	font-size: 20px;
+}
+h2#footer {
+	font-size: 20px;	
 }
 p#foot {
 	font-size: 13px;	
 }
-
 h3#popupHeader {
 	font-weight: bold;
 	text-align: center;
